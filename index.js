@@ -1,13 +1,13 @@
 import "dotenv/config.js";
+import fetch from "node-fetch";
 
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-    apiKey: process.env.API_KEY,
+    apiKey: "AIzaSyC82qIhdWn8aVxolSYELd5TorMxFUld8dY",
     authDomain: "crossgen-ec7ee.firebaseapp.com",
     projectId: "crossgen-ec7ee",
     storageBucket: "crossgen-ec7ee.appspot.com",
@@ -18,18 +18,17 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 const auth = getAuth()
 
-let userCredential = await signInWithEmailAndPassword(auth, process.env.EMAIL, process.env.PASSWORD)
+let userCredential = await signInWithEmailAndPassword(auth, "jj1355810@gmail.com", "7701crossgenmiddleman")
 
-let idToken = await userCredential.getIdToken(/* forceRefresh */ true).catch(function (error) {
+let idToken = await userCredential.user.getIdToken(/* forceRefresh */ true).catch(function (error) {
     console.log(error)
 });
 
 let url = '';
 
-const amqp = require('amqplib/callback_api');
+import amqp from 'amqplib/callback_api';
 
 const QUEUE_NAME = 'variable_queue';
 
