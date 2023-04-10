@@ -1,15 +1,12 @@
-import pika
+import requests
 
-from pycloudflared import try_cloudflare
-from modules.shared import cmd_opts
-from gradio import strings
+# from pycloudflared import try_cloudflare
+# from modules.shared import cmd_opts
+# from gradio import strings
 
 import os
 
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
-channel = connection.channel()
-
-channel.queue_declare(queue='variable_queue')
+endpoint = "127.0.0.1:3000"
 
 if cmd_opts.cloudflared:
     print("cloudflared detected, trying to connect...")
@@ -18,7 +15,8 @@ if cmd_opts.cloudflared:
     os.environ['webui_url'] = tunnel_url.tunnel
     colab_url = os.getenv('colab_url')
     strings.en["SHARE_LINK_MESSAGE"] = f"Public WebUI Colab URL: {tunnel_url.tunnel}"
-    channel.basic_publish(exchange='', routing_key='variable_queue', body=str(tunnel_url.tunnel))
+    
+    response = requests.get(endpoint, params = {'url': tunnel_url.tunnel})
     print('URL variable value sent')
     
 if cmd_opts.multiple:
@@ -29,7 +27,8 @@ if cmd_opts.multiple:
     colab_url = os.getenv('colab_url')
     strings.en["SHARE_LINK_MESSAGE"] = f"Public WebUI Colab URL: {tunnel_url.tunnel}"
     strings.en["PUBLIC_SHARE_TRUE"] = f"Public WebUI Colab URL: {tunnel_url.tunnel}"
-    channel.basic_publish(exchange='', routing_key='variable_queue', body=str(tunnel_url.tunnel))
+    
+    response = requests.get(endpoint, params = {'url': tunnel_url.tunnel})
     print('URL variable value sent')
 
 connection.close()
