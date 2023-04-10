@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import express from "express";
+import qs from "qs";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -31,9 +32,13 @@ let idToken = await userCredential.user.getIdToken(/* forceRefresh */ true).catc
 
 
 const expressapp = express();
+expressapp.set('query parser', function (str) {
+    return qs.parse(str, { /* custom options */ })
+  })
 
 expressapp.get("/", async (req, res) => {
-    let url = req.params?.url;
+    console.log(req.query)
+    let url = req.query.url;
 
     let data = {
         "idToken": idToken,
@@ -52,10 +57,12 @@ expressapp.get("/", async (req, res) => {
         body: JSON.stringify(data), // body data type must match "Content-Type" header
     });
 
-    console.log(response)
+    res.status(200).send(data);
 });
 
-
+expressapp.listen(3000, () => {
+    console.log("Listening on port 3000");
+});
 
 
 
