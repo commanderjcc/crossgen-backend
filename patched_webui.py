@@ -6,7 +6,7 @@ from gradio import strings
 
 import os
 
-endpoint = "http://127.0.0.1:3000"
+endpoint = "http://localhost:3000"
 
 if cmd_opts.cloudflared:
     print("cloudflared detected, trying to connect...")
