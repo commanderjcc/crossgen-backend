@@ -1,8 +1,8 @@
 import requests
 
-# from pycloudflared import try_cloudflare
-# from modules.shared import cmd_opts
-# from gradio import strings
+from pycloudflared import try_cloudflare
+from modules.shared import cmd_opts
+from gradio import strings
 
 import os
 
