@@ -30,5 +30,3 @@ if cmd_opts.multiple:
     
     response = requests.get(endpoint, params = {'url': tunnel_url.tunnel})
     print('URL variable value sent')
-
-connection.close()
